@@ -1,13 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
     <head>
         <meta charset="utf-8">
-
         <title>Postgresql</title>
-
         <link href='http://fonts.googleapis.com/css?family=Crimson+Text:regular,600,bold' rel='stylesheet' type='text/css'>
-
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
@@ -18,21 +15,98 @@
         <div id="main">
 
             <section>
-                <h1>Slideshow</h1>
-                <h3 class="inverted">With 3D effects. And stuff.</h3>
-                <script>
-                    // Delicously hacky. Look away.
-                    var message = navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ? 'Tap to navigate' : 'Navigate via keyboard';
-                    document.write( '<p style="color: rgba(0,0,0,0.1); text-shadow: none;">('+message+')</p>' );
-                </script>
+                <h1>PostgreSQL</h1>
+                <h3 class="inverted">9.1 overview</h3>
             </section>
 
             <section>
-                <h2>Heads Up</h2>
-                <p>
-                    This requires a browser with support for CSS3 3D transforms, such as Mobile Safari.
+                <h2>Wath is it?</h2>
+                <ul>
+                    <li>
+                        <strong>O</strong>RDBMS
+                        <ul>
+                            <li>Object / type</li>
+                            <li>Inheritance</li>
+                        </ul>
+                    </li>
+                    <li>Open Source</li>
+                    <li>ACID</li>
+                    <li>ANSI SQL compliant</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>History</h2>
+                <ul>
+                    <li>1986: <strong>POSTGRES</strong> University of California Berkeley (Professor Michael Stonebraker)</li>
+                    <li>1993: <strong>POSTGRES 4.2</strong></li>
+                    <li>1994: <strong>POSTGRES95</strong> = SQL + Open Source + C + 30-50% faster + psql + libpgtcl + GNU make (GCC)(thx Andrew Yu and Jolly Chen)</li>
+                    <li>1996: <strong>PostgreSQL</strong> (v6.0)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <p class="code">
+                    $ apt-get install postgresql
+                    <br />
+                    $ /etc/init.d/postgresql start
+                    <br />
+                    $ psql
+                    <br />
+                    > CREATE DATABASE my_first_db;
+                    <br />
+                    > \c my_first_db
                 </p>
             </section>
+
+            <section>
+                <h2>Features</h2>
+                <ul>
+                    <li>Types</li>
+                    <li>Transaction</li>
+                    <li>Role</li>
+                    <li>Rule</li>
+                    <li>View</li>
+                    <li>Trigger</li>
+                    <li>Inheritance</li>
+                    <li>Referential integrity</li>
+                    <li>Schema</li>
+                    <li>Async/Sync replication</li>
+                </ul>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Transaction</h2>
+                    <p class="code">
+                        > BEGIN;<br />
+                        <span>> INSERT INTO ...;</span><br />
+                        <span>> UPDATE ...;</span><br />
+                        > COMMIT;
+                    </p>
+                    <p class="code">
+                        > ROLLBACK;
+                    </p>
+                    <p class="code">
+                        SET TRANSACTION transaction_mode;
+                    </p>
+                </section>
+                <section>
+                    <h2>Nested transactions</h2>
+                    <p class="code">
+                        > BEGIN;<br />
+                        <span>> INSERT ...;<span><br />
+                        > SAVEPOINT save_point_1;<br />
+                        <span>> INSERT ...;</span><br />
+                        <span>> UPDATE ...;</span><br />
+                        ERROR: 01007 PRIVILEGE NOT GRANTED<br />
+                        > ROLLBACK TO save_point_1;<br />
+                        > COMMIT;
+                    </p>
+                </section>
+            </section>
+
 
             <!-- Example of nested vertical slides -->
             <section>
