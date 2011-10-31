@@ -165,6 +165,10 @@ ol ol, ul ul {
     margin-left: 1em;
 }
 
+strong {
+    font-weight: bold;
+}
+
 ol {
     list-style: decimal;
     list-style-position: inside;
