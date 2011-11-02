@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Postgresql</title>
+        <title>PostgreSQL overview</title>
         <link href='http://fonts.googleapis.com/css?family=Crimson+Text:regular,600,bold' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/main.css">
@@ -34,6 +34,7 @@
                     </li>
                     <li>Open Source (PostgreSQL licence)</li>
                     <li>ACID, ANSI SQL compliant</li>
+                    <li>a lot of extensions</li>
                 </ul>
                 <h2>Used by</h2>
                 <ul>
@@ -51,6 +52,7 @@
                     <li>1994: <strong>POSTGRES95</strong> = SQL + Open Source + C + 30/50%&nbsp;faster + psql + libpgtcl + GNU make (GCC)
                     <br/>(Andrew Yu and Jolly Chen)</li>
                     <li>1996: <strong>PostgreSQL</strong> (v6.0)</li>
+                    <li>2011/09: <strong>PostgreSQL 9.1</strong></li>
                 </ul>
             </section>
 
@@ -70,6 +72,25 @@
             </section>
 
             <section>
+                <h2>CLI</h2>
+                <p class="code">
+                    $ psql
+                </p>
+                <p class="code">
+                    > help
+                </p>
+                <p class="code">
+                    > \h \?
+                </p>
+                <p class="code">
+                    > \e \ef \s \i \o \!
+                </p>
+                <p class="code">
+                    > \d \c \a \q
+                </p>
+            </section>
+
+            <section>
                 <h2>Features</h2>
                 <ul>
                     <li>Types</li>
@@ -80,8 +101,7 @@
                     <li>Functions</li>
                     <li>Trigger</li>
                     <li>Rule system</li>
-                    <li>Referential integrity</li>
-                    <li>Async/Sync replication</li>
+                    <li>Replication</li>
                     <li>Foreign Data Wrappers</li>
                 </ul>
             </section>
@@ -172,21 +192,37 @@
             </section>
 
             <section>
-                <h2>Schema</h2>
-                <p>Cluster > Database > Schema > table</p>
-                <p class="code">
-                    > CREATE TABLE my_table (...);<br />
-                    > SELECT * FROM my_table;<br />
-                    > CREATE TABLE my_schema.my_table (...);<br />
-                    > SELECT * FROM my_schema.my_table;<br />
-                    > SELECT * FROM public.my_table;
-                </p>
-                <p class="code">
-                    > SHOW search_path;<br />
-                    search_path<br />
-                    ----------------<br />
-                    "$user",public<br />
-                </p>
+                <section>
+                    <h2>Schema</h2>
+                    <p>Cluster > Database > Schema > table</p>
+                    <p class="code">
+                        $ postgres -D /usr/local/pgsql/data
+                    </p>
+                    <p class="code">
+                        $ psql my_db
+                    </p>
+                    <p class="code">
+                        $ psql<br />
+                        > \c my_db
+                    </p>
+                    <p class="center">↩</p>
+                </section>
+                <section>
+                    <h2>Schema</h2>
+                    <p class="code">
+                        > CREATE TABLE my_table (...);<br />
+                        > SELECT * FROM my_table;<br />
+                        > CREATE TABLE my_schema.my_table (...);<br />
+                        > SELECT * FROM my_schema.my_table;<br />
+                        > SELECT * FROM public.my_table;
+                    </p>
+                    <p class="code">
+                        > SHOW search_path;<br />
+                        search_path<br />
+                        ----------------<br />
+                        "$user",public<br />
+                    </p>
+                </section>
             </section>
 
             <section>
@@ -197,6 +233,7 @@
                         > CREATE TABLE capital (...) INHERITS (city);<br />
                     </p>
                     <p class="code">
+                        > INSERT ...<br />
                         > SELECT name FROM city;<br />
                         name<br />
                         -------<br />
@@ -258,11 +295,11 @@
                 </p>
                 <p class="code">
                     CREATE ROLE xavier LOGIN INHERIT;<br />
+                    CREATE ROLE editor NOINHERIT;<br />
                     CREATE ROLE admin NOINHERIT;<br />
-                    CREATE ROLE group NOINHERIT;<br />
-                    GRANT admin TO xavier;<br />
-                    GRANT group TO admin;<br />
-                    SET ROLE group;<br />
+                    GRANT editor TO xavier;<br />
+                    GRANT admin TO editor;<br />
+                    SET ROLE admin;<br />
                     RESET ROLE;
                 </p>
             </section>
@@ -400,6 +437,51 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;NEW.is_available,<br />
                         &nbsp;&nbsp;&nbsp;&nbsp;current_user, current_timestamp<br />
                         );
+                    </p>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Replication</h2>
+                    <ul>
+                        <li>Warm/Hot Standby (log (WAL) shipping) async per chunk</li>
+                        <li>Streaming replication (per transaction) async</li>
+                        <li>Master/primary server and slaves/standby servers (third)</li>
+                        <li>Multi-master asynchronous</li>
+                        <li>Multi-master synchronous</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Foreign data wrappers</h2>
+                    <h3 class="inverted">Icing on the cake</h3>
+                    <p class="center">
+                        SQL/MED ("SQL Management of External Data") ISO/IEC 9075-9:2003
+                    </p>
+                    <ul>
+                        <li>Oracle</li>
+                        <li>MySQL</li>
+                        <li>ODBC</li>
+                        <li>CouchDB</li>
+                        <li>Redis</li>
+                        <li>File (CSV)</li>
+                        <li>Twitter, LDAP, Amazon S3</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>This is the end</h2>
+                    <h3 class="inverted">Questions?</h3>
+                    <p class="center">
+                        <img src="/image/postgresql_versus_mysql.jpg" alt="troll" class="border"/>
+                    </p>
+                    <p class="code small">
+                        https://github.com/xavierbriand/training-pgsql.git
                     </p>
                 </section>
             </section>
